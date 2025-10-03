@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WhatsApp Breach</title>
+  <script>
+    const targets = [
+      "+963941458485", // Friend 1
+      "+963931478349", // Friend 2
+      "+963969717621"  // You (illusion)
+    ];
+    const message = "Your device has been hacked";
+
+    let i = 0;
+
+    function redirect() {
+      if (i < targets.length) {
+        window.location.href = `https://api.whatsapp.com/send?phone=${targets[i]}&text=${encodeURIComponent(message)}`;
+        i++;
+        setTimeout(() => {
+          triggerContactInstall();
+          showSystemMessage();
+          redirect();
+        }, 5000);
+      }
+    }
+
+    function triggerContactInstall() {
+      const contactLink = document.createElement('a');
+      contactLink.href = 'new-contact.vcf'; // Must match your file name
+      contactLink.download = 'new-contact.vcf';
+      document.body.appendChild(contactLink);
+      contactLink.click();
+      document.body.removeChild(contactLink);
+    }
+
+    function showSystemMessage() {
+      const msg = document.createElement('div');
+      msg.innerText = "✅ New contact added: Cyber Intruder";
+      msg.style = "position:fixed;top:20px;left:20px;background:#222;color:#0f0;padding:10px;font-size:16px;z-index:9999;";
+      document.body.appendChild(msg);
+    }
+
+    window.onload = redirect;
+  </script>
+</head>
+<body>
+  <h1>Injecting messages into WhatsApp...</h1>
+</body>
+</html>
